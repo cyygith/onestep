@@ -1,0 +1,90 @@
+<!<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>syxm-list</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<style>
+    .triangle{
+        height:120px;
+        width: 120px;
+        border-top: 50px solid green;
+        border-left: 50px solid blue;
+        border-right: 50px solid black;
+        border-bottom: 50px solid red;
+    }
+    .listitem{
+        margin-bottom: 0.5rem;
+        padding-left: 10px;
+    }
+    .listitem span{
+        text-align: right;
+        width:50%;
+        color: black;
+    }
+    .listitem div{
+        width: 50%;
+        display: inline-block;
+    }
+    .listitem input{
+        width: 70%;
+        border: 0px;
+        border-bottom: 1px solid black;
+    }
+</style>
+</head>
+<body>
+    <div id="container">
+        this is syxm list of cyy
+        <div>
+            <button class="btn btn-primary" v-on:click="addSize(1)">增大</button>
+            <button class="btn btn-warning" v-on:click="addSize(2)">减小</button>
+        </div>
+        <div>
+            <div name="tname" class="triangle"  ref="triangle">
+
+            </div>
+        </div>
+        <div id="list-container">
+            <div id="listitem" class="listitem">
+                <span>请求时间：</span>
+                <input />
+            </div>
+            <div id="listitem" class="listitem">
+                <span>处理：</span>
+                <input />
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        data:{
+            msg:'I am chinese',
+            height:120,
+            width:120
+        },
+        methods:{
+            addSize:function(type){
+                if(type==1){
+                    this.$refs.triangle.style.height = (this.height = this.height + 10) +'px';
+                    this.$refs.triangle.style.width = (this.width = this.width + 10) +'px';
+                }else{
+                    this.$refs.triangle.style.height = (this.height = this.height - 10) +'px';
+                    this.$refs.triangle.style.width = (this.width = this.width - 10) +'px';
+                }
+                
+            }
+        }
+
+
+
+    }).$mount("#container");
+
+</script>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<style>
+body{
+    padding: 10px;
+    background: black;
+}
+/******性格介绍**************/
+.box{
+    height: 10rem;
+    widows: 30rem;
+    position: relative;
+}
+.innerbox{
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 40%;
+    color: white;
+    padding: 1rem;
+    margin: 1rem;
+    box-shadow: 0 0 3rem rgba(100, 200, 255, .5) inset;
+    background: rgba(0, 0, 0,.4);
+    margin-left: 1rem;
+}
+/******武力值表现**************/
+.panel{
+    color: rgba(21, 162, 194, 0.671);
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+    border: 1px solid rgba(0, 0, 0,.4);
+    padding: 1rem;margin: 1rem;
+    box-shadow: 0 0 2rem rgba(0, 180, 220,.1) inset;
+    background: linear-gradient(180deg,rgba(0,180,220,0.3),rgba(0,180,220,0.1),rgba(0,180,220,0.1),rgba(0,180,220,0.3))
+
+}
+/******用户行为分析**************/
+.panel2{
+    height: 10rem;width: 20rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0,.5);
+    padding-left: 1rem;
+    display: flex;flex-flow: column nowrap;
+}
+.panel2-head{
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.918);
+    text-align: center;
+    line-height: 3rem;
+    background: linear-gradient(rgb(0,20,30),rgb(0,40,70));
+    border: 2px solid rgba(0, 90, 120, .3);
+    flex: 0 0 3rem;
+
+}
+.panel2-body{
+    flex: 1 0 auto;
+    background: rgba(0, 0, 0,.3);
+    border: 2px solid rgba(0, 90, 120, .4);
+    border-top: none;
+}
+.panel2:hover{
+    filter: brightness(1.2);
+}
+/******flex布局测试**************/
+.flexclass{
+    display: flex;
+    height: 10rem;width: 100%;
+    padding-left: 1rem;
+    margin-top: 20px;
+}
+.flexclass .fcontent{
+    color: rgba(255, 255, 255, 0.918);
+    box-shadow: 0 0 3rem rgba(100, 200, 255, .5) inset;
+    flex: 1;
+    margin-right: 10px;
+    padding: 1rem;
+}
+/******角标面板**************/
+.jbpanel{
+    margin-left: 1rem;
+    margin-top: 20px;
+    height: 10rem;
+    width:20rem;
+    border: 1px solid rgba(22, 78, 137, 1);
+    background: rgba(13, 35, 61,.2);
+    position:relative;
+}
+.jbpanel::after{
+    content: attr(data-corner);
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5rem;
+    padding:0 1rem;
+    color:rgba(255, 255, 255, .9);
+    overflow: hidden;
+    text-align: right;
+    background: linear-gradient(45deg,transparent 0%,transparent 30%,rgba(22,78,137,1) 30%,rgba(22,78,137,1) 100%);
+}
+/******动态旋转边框**************/
+.circlebox{
+    margin:1rem;
+    position: relative;
+    width: 220px;
+    height:220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.circlebox .ring-outer{
+    width: 220px;
+    height:220px;
+    position: absolute;
+    background: url(http://www.imaoda.com/s/img/tpl/ring-outer.png) no-repeat;
+    background-size: 90%;
+    background-position: center;
+    animation: clockwise 3s linear infinite;
+}
+.circlebox .ring-inner{
+    width: 220px;
+    height:220px;
+    position: absolute;
+    background: url(http://www.imaoda.com/s/img/tpl/ring-inner.png) no-repeat;
+    background-size: 100%;
+    background-position: center;
+    animation: anti-clockwise 3s linear infinite   
+}
+.circlebox .avatar{
+    height: 160px;
+    width: 160px;
+    background: url(http://www.imaoda.com/s/img/lessons/92.jpg);
+    background-size: cover;
+    border-radius: 50%;
+}
+@keyframes clockwise{
+    100%{
+        transform: rotate(360deg);
+    }
+}
+@keyframes anti-clockwise{
+    0%{
+        transform: rotate(360deg);
+    }
+}
+/******进度条效果**************/
+.progressbox{
+    margin: 1rem;
+    height: 2rem;
+    width: 30rem;   
+    border: 1px solid black;
+    background-color: #003366;
+}
+.progressbox .progress{
+    width: 1rem;
+    height: 2rem;
+    background: linear-gradient(180deg,#00CCCC,#00CCCC,#009999);
+    box-shadow: 0 0px 5px white;
+    transition: all 10s;
+    border-color: black;
+}
+.progressbox:hover .progress{
+    width: 40rem;
+}
+</style>
+</head>
+<body>
+    <div class="box" id="box">
+        <div class="innerbox" v-on:click="startType">
+            性格介绍<br/>
+            {{personality.display}}
+        </div>
+        <div class="panel">
+            武力值表现
+        </div>
+        <div class="panel2">
+            <div class="panel2-head" v-on:click="toggleContent()">用户行为分析</div>
+            <div class="panel2-body" v-if="personality.showflex"></div>
+        </div>
+        <div class="flexclass">
+            <div class="fcontent">flex布局测试</div>
+            <div class="fcontent">flex布局测试</div>
+        </div>
+        <div class="jbpanel" data-corner='new'>角标效果</div>
+
+        <div class="circlebox">
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+            <div class="avatar"></div>
+        </div>
+
+        <div class="progressbox">
+            <div class="progress"></div>
+        </div>
+
+        <div class="test" style="margin-top: 20px;color:white;">aaa</div>
+    </div>
+</body>
+<script>
+const app = new Vue({
+    el:'#box',
+    data(){
+        return {
+            personality:{
+                name:'personality introduce',
+                intr:'洛天依，性格天真善良，可爱，一根脑筋值通肠，好看的皮囊千篇一律，有趣的灵魂万里挑一',
+                display:'',
+                showflex:true
+                },
+            force:{
+                name:'force introduce',
+                intr:'天使的面庞，魔鬼的身材',
+                display:''
+            }
+        }
+    },
+    methods:{
+        startType:function(){
+            let pArr = this.personality.intr.split('');
+            let len = pArr.length;
+            let i=0;
+            let timer = setInterval(()=>{
+                if(i<len){
+                    this.personality.display += pArr[i++]
+                }else{
+                    clearInterval(timer);
+                }
+                console.log("here...");
+            },200);
+        },
+        toggleContent:function(){
+            this.personality.showflex = !this.personality.showflex;
+        }
+    },
+    mounted:function(){
+
+    }
+
+});
+
+
+</script>
+</html>
